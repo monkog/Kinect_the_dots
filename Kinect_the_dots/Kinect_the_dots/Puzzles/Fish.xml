@@ -1,0 +1,23 @@
+<Puzzle>
+	<Image></Image>
+	<Point>
+		<X>200</X>
+		<Y>200</Y>
+	</Point>
+	<Point>
+		<X>600</X>
+		<Y>100</Y>
+	</Point>
+	<Point>
+		<X>300</X>
+		<Y>300</Y>
+	</Point>
+	<Point>
+		<X>600</X>
+		<Y>200</Y>
+	</Point>
+	<Point>
+		<X>100</X>
+		<Y>300</Y>
+	</Point>
+</Puzzle>

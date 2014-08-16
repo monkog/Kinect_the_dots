@@ -1,21 +1,9 @@
 ﻿using Microsoft.Kinect;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Kinect_the_dots
 {
@@ -75,6 +63,7 @@ namespace Kinect_the_dots
             InitializeComponent();
             Loaded += DiscoverKinectSensors;
             Unloaded += (sender, e) => { Kinect = null; };
+            SetupGame();
         }
 
         /// <summary>
@@ -202,21 +191,21 @@ namespace Kinect_the_dots
             }
 
             HandCursor.Visibility = Visibility.Visible;
-            
+
             DepthImagePoint point = Kinect.CoordinateMapper.MapSkeletonPointToDepthPoint(hand.Position
                 , Kinect.DepthStream.Format);
-            int x = (int)((point.X * HandCanvas.Width / Kinect.DepthStream.FrameWidth)
-                - (HandCursor.ActualWidth / 2.0));
-            int y = (int)((point.Y * HandCanvas.ActualHeight / Kinect.DepthStream.FrameHeight)
-                - (HandCursor.Height / 2.0));
+            int x = (int)((point.X * HandCanvas.Width / Kinect.DepthStream.FrameWidth));
+            int y = (int)((point.Y * HandCanvas.ActualHeight / Kinect.DepthStream.FrameHeight));
 
-            Canvas.SetLeft(HandCursor, x);
-            Canvas.SetTop(HandCursor, y);
+            Canvas.SetLeft(HandCursor, x - (HandCursor.ActualWidth / 2.0));
+            Canvas.SetTop(HandCursor, y - (HandCursor.Height / 2.0));
 
             if (hand.JointType == JointType.HandRight)
                 CursorScale.ScaleX = -1;
             else
                 CursorScale.ScaleX = 1;
+
+            IsGameOver(x, y);
         }
 
         /// <summary>
