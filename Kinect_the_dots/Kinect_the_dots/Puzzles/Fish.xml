@@ -1,23 +1,55 @@
 <Puzzle>
 	<Image></Image>
 	<Point>
+		<X>100</X>
+		<Y>300</Y>
+	</Point>
+	<Point>
 		<X>200</X>
 		<Y>200</Y>
 	</Point>
 	<Point>
-		<X>600</X>
+		<X>300</X>
+		<Y>130</Y>
+	</Point>
+	<Point>
+		<X>400</X>
 		<Y>100</Y>
 	</Point>
 	<Point>
-		<X>300</X>
-		<Y>300</Y>
+		<X>500</X>
+		<Y>150</Y>
 	</Point>
 	<Point>
 		<X>600</X>
-		<Y>200</Y>
+		<Y>275</Y>
 	</Point>
 	<Point>
-		<X>100</X>
-		<Y>300</Y>
+		<X>800</X>
+		<Y>100</Y>
+	</Point>
+	<Point>
+		<X>800</X>
+		<Y>500</Y>
+	</Point>
+	<Point>
+		<X>600</X>
+		<Y>325</Y>
+	</Point>
+	<Point>
+		<X>500</X>
+		<Y>450</Y>
+	</Point>
+	<Point>
+		<X>400</X>
+		<Y>500</Y>
+	</Point>
+	<Point>
+		<X>300</X>
+		<Y>460</Y>
+	</Point>
+	<Point>
+		<X>200</X>
+		<Y>400</Y>
 	</Point>
 </Puzzle>

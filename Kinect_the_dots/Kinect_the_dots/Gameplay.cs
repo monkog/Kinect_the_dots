@@ -1,6 +1,7 @@
 ﻿using Microsoft.Kinect;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,18 @@ namespace Kinect_the_dots
     public partial class MainWindow
     {
         #region Variables
+        /// <summary>
+        /// Path to the xml puzzle files
+        /// </summary>
+        private const string DIRECTORY_PATH = @".\..\..\Puzzles";
+        /// <summary>
+        /// Current puzzle number
+        /// </summary>
+        private int m_currentPuzzle;
+        /// <summary>
+        /// List of puzzle files
+        /// </summary>
+        private List<string> m_puzzles;
         /// <summary>
         /// Current connected puzzle index
         /// </summary>
@@ -28,7 +41,21 @@ namespace Kinect_the_dots
         /// </summary>
         private void SetupGame()
         {
+            m_currentPuzzle = 0;
+            ReadPuzzleFiles();
             CreatePuzzle();
+        }
+
+        /// <summary>
+        /// Finds paths to all puzzle files
+        /// </summary>
+        private void ReadPuzzleFiles()
+        {
+            m_puzzles = new List<string>();
+
+            foreach (string file in Directory.GetFiles(DIRECTORY_PATH))
+                if (Path.GetExtension(file) == ".xml")
+                    m_puzzles.Add(file);
         }
 
         /// <summary>
@@ -37,7 +64,7 @@ namespace Kinect_the_dots
         private void CreatePuzzle()
         {
             m_puzzleIndex = -1;
-            ReadXMLFile(@".\..\..\Puzzles\Fish.xml");
+            ReadXMLFile(m_puzzles[m_currentPuzzle]);
         }
 
         /// <summary>
