@@ -104,6 +104,9 @@ namespace Kinect_the_dots
                 Canvas.SetTop(dot, y);
                 DotCanvas.Children.Add(dot);
             }
+            //DotCanvas.Children.Add(DotCanvas.Children[0]);
+
+            m_Points.Add(new Point(Canvas.GetLeft(DotCanvas.Children[0]), Canvas.GetTop(DotCanvas.Children[0])));
         }
 
         /// <summary>

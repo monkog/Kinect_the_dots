@@ -201,9 +201,9 @@ namespace Kinect_the_dots
             Canvas.SetTop(HandCursor, y - (HandCursor.Height / 2.0));
 
             if (hand.JointType == JointType.HandRight)
-                CursorScale.ScaleX = -1;
-            else
                 CursorScale.ScaleX = 1;
+            else
+                CursorScale.ScaleX = -1;
 
             IsGameOver(x, y);
         }
