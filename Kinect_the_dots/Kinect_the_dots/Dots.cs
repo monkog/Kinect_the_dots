@@ -17,47 +17,47 @@ namespace Kinect_the_dots
         /// <summary>
         /// List of points in current puzzle
         /// </summary>
-        private List<Point> m_Points;
+        private List<Point> _points;
         /// <summary>
         /// Name of root node
         /// </summary>
-        private const string ROOT_NODE = "Puzzle";
+        private const string RootNode = "Puzzle";
         /// <summary>
         /// Name of image node
         /// </summary>
-        private const string IMAGE_NODE = "Image";
+        private const string ImageNode = "Image";
         /// <summary>
         /// Name of point node
         /// </summary>
-        private const string POINT = "Point";
+        private const string PointNode = "Point";
         /// <summary>
         /// Name of X coordinate node
         /// </summary>
-        private const string X_COORD = "X";
+        private const string XCoord = "X";
         /// <summary>
         /// Name of Y coordinate node
         /// </summary>
-        private const string Y_COORD = "Y";
+        private const string YCoord = "Y";
         /// <summary>
         /// Ellipse size
         /// </summary>
-        private const int ELLIPSE_SIZE = 50;
+        private const int EllipseSize = 50;
         /// <summary>
         /// Ellipse stroke size
         /// </summary>
-        private const int ELLIPSE_STROKE_SIZE = 2;
+        private const int EllipseStrokeSize = 2;
         /// <summary>
         /// Ellipse color
         /// </summary>
-        private Color ELLIPSE_COLOR = Colors.SteelBlue;
+        private Color _ellipseColor = Colors.SteelBlue;
         /// <summary>
         /// Ellipse stroke color
         /// </summary>
-        private Color ELLIPSE_STROKE_COLOR = Colors.Black;
+        private Color _ellipseStrokeColor = Colors.Black;
         /// <summary>
         /// Label font color
         /// </summary>
-        private Color FONT_COLOR = Colors.Black;
+        private Color _fontColor = Colors.Black;
         /// <summary>
         /// Label font size
         /// </summary>
@@ -69,18 +69,18 @@ namespace Kinect_the_dots
         /// Reads the XML puzzle file and sets the background and places the dots
         /// </summary>
         /// <param name="file">File to read puzzle from</param>
-        private void ReadXMLFile(string file)
+        private void ReadXmlFile(string file)
         {
-            m_Points = new List<Point>();
+            _points = new List<Point>();
             DotCanvas.Children.Clear();
 
             XmlDocument document = new XmlDocument();
             document.Load(file);
 
-            XmlNode background = document.SelectSingleNode(ROOT_NODE).SelectSingleNode(IMAGE_NODE);
+            XmlNode background = document.SelectSingleNode(RootNode).SelectSingleNode(ImageNode);
             // TODO: Read background
 
-            XmlNodeList points = document.SelectSingleNode(ROOT_NODE).SelectNodes(POINT);
+            XmlNodeList points = document.SelectSingleNode(RootNode).SelectNodes(PointNode);
             PlaceDots(points);
         }
 
@@ -92,13 +92,13 @@ namespace Kinect_the_dots
         {
             foreach (XmlNode point in points)
             {
-                int x = int.Parse(point.SelectSingleNode(X_COORD).InnerText);
-                int y = int.Parse(point.SelectSingleNode(Y_COORD).InnerText);
-                m_Points.Add(new Point(x, y));
+                int x = int.Parse(point.SelectSingleNode(XCoord).InnerText);
+                int y = int.Parse(point.SelectSingleNode(YCoord).InnerText);
+                _points.Add(new Point(x, y));
 
                 Grid dot = new Grid();
                 dot.Children.Add(CreateEllipse());
-                dot.Children.Add(CreateLabel(m_Points.Count));
+                dot.Children.Add(CreateLabel(_points.Count));
 
                 Canvas.SetLeft(dot, x);
                 Canvas.SetTop(dot, y);
@@ -106,7 +106,7 @@ namespace Kinect_the_dots
             }
             //DotCanvas.Children.Add(DotCanvas.Children[0]);
 
-            m_Points.Add(new Point(Canvas.GetLeft(DotCanvas.Children[0]), Canvas.GetTop(DotCanvas.Children[0])));
+            _points.Add(new Point(Canvas.GetLeft(DotCanvas.Children[0]), Canvas.GetTop(DotCanvas.Children[0])));
         }
 
         /// <summary>
@@ -116,11 +116,11 @@ namespace Kinect_the_dots
         private Ellipse CreateEllipse()
         {
             Ellipse ellipse = new Ellipse();
-            ellipse.Width = ELLIPSE_SIZE;
-            ellipse.Height = ELLIPSE_SIZE;
-            ellipse.Fill = new SolidColorBrush(ELLIPSE_COLOR);
-            ellipse.StrokeThickness = ELLIPSE_STROKE_SIZE;
-            ellipse.Stroke = new SolidColorBrush(ELLIPSE_STROKE_COLOR);
+            ellipse.Width = EllipseSize;
+            ellipse.Height = EllipseSize;
+            ellipse.Fill = new SolidColorBrush(_ellipseColor);
+            ellipse.StrokeThickness = EllipseStrokeSize;
+            ellipse.Stroke = new SolidColorBrush(_ellipseStrokeColor);
 
             return ellipse;
         }
@@ -135,7 +135,7 @@ namespace Kinect_the_dots
             TextBlock label = new TextBlock();
             label.Text = number.ToString();
             label.FontSize = FONT_SIZE;
-            label.Foreground = new SolidColorBrush(FONT_COLOR);
+            label.Foreground = new SolidColorBrush(_fontColor);
             label.HorizontalAlignment = HorizontalAlignment.Center;
             label.VerticalAlignment = VerticalAlignment.Center;
 

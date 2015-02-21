@@ -16,19 +16,19 @@ namespace Kinect_the_dots
         /// <summary>
         /// Current KinectSensor
         /// </summary>
-        private KinectSensor m_kinectSensor;
+        private KinectSensor _kinectSensor;
         /// <summary>
         /// WritableBitmap that source from Kinect camera is written to
         /// </summary>
-        private WriteableBitmap m_cameraSourceBitmap;
+        private WriteableBitmap _cameraSourceBitmap;
         /// <summary>
         /// Bounds of camera source
         /// </summary>
-        private Int32Rect m_cameraSourceBounds;
+        private Int32Rect _cameraSourceBounds;
         /// <summary>
         /// Number of bytes per line
         /// </summary>
-        private int m_colorStride;
+        private int _colorStride;
         #endregion
 
         #region Properties
@@ -37,20 +37,20 @@ namespace Kinect_the_dots
         /// </summary>
         public KinectSensor Kinect
         {
-            get { return m_kinectSensor; }
+            get { return _kinectSensor; }
             set
             {
-                if (m_kinectSensor != value)
+                if (_kinectSensor != value)
                 {
-                    if (m_kinectSensor != null)
+                    if (_kinectSensor != null)
                     {
-                        UninitializeKinectSensor(m_kinectSensor);
-                        m_kinectSensor = null;
+                        UninitializeKinectSensor(_kinectSensor);
+                        _kinectSensor = null;
                     }
                     if (value != null && value.Status == KinectStatus.Connected)
                     {
-                        m_kinectSensor = value;
-                        InitializeKinectSensor(m_kinectSensor);
+                        _kinectSensor = value;
+                        InitializeKinectSensor(_kinectSensor);
                     }
                 }
             }
@@ -77,16 +77,16 @@ namespace Kinect_the_dots
                 ColorImageStream colorStream = sensor.ColorStream;
                 colorStream.Enable();
 
-                m_cameraSourceBitmap = new WriteableBitmap(colorStream.FrameWidth, colorStream.FrameHeight
+                _cameraSourceBitmap = new WriteableBitmap(colorStream.FrameWidth, colorStream.FrameHeight
                     , 96, 96, PixelFormats.Bgr32, null);
-                m_cameraSourceBounds = new Int32Rect(0, 0, colorStream.FrameWidth, colorStream.FrameHeight);
-                m_colorStride = colorStream.FrameWidth * colorStream.FrameBytesPerPixel;
-                KinectCameraImage.Source = m_cameraSourceBitmap;
+                _cameraSourceBounds = new Int32Rect(0, 0, colorStream.FrameWidth, colorStream.FrameHeight);
+                _colorStride = colorStream.FrameWidth * colorStream.FrameBytesPerPixel;
+                KinectCameraImage.Source = _cameraSourceBitmap;
 
                 sensor.ColorFrameReady += KinectSensor_ColorFrameReady;
 
                 sensor.SkeletonStream.Enable();
-                m_skeletons = new Skeleton[sensor.SkeletonStream.FrameSkeletonArrayLength];
+                _skeletons = new Skeleton[sensor.SkeletonStream.FrameSkeletonArrayLength];
                 sensor.SkeletonFrameReady += KinectSensor_SkeletonFrameReady;
                 sensor.Start();
             }
@@ -104,7 +104,7 @@ namespace Kinect_the_dots
                 sensor.ColorFrameReady -= KinectSensor_ColorFrameReady;
                 sensor.SkeletonFrameReady -= KinectSensor_SkeletonFrameReady;
                 sensor.SkeletonStream.Disable();
-                m_skeletons = null;
+                _skeletons = null;
             }
         }
 
@@ -125,7 +125,7 @@ namespace Kinect_the_dots
                     byte[] pixels = new byte[colorFrame.PixelDataLength];
                     colorFrame.CopyPixelDataTo(pixels);
 
-                    m_cameraSourceBitmap.WritePixels(m_cameraSourceBounds, pixels, m_colorStride, 0);
+                    _cameraSourceBitmap.WritePixels(_cameraSourceBounds, pixels, _colorStride, 0);
                 }
             }
         }

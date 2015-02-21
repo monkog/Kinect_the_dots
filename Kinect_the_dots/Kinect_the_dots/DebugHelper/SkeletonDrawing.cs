@@ -16,7 +16,7 @@ namespace Kinect_the_dots
         /// <summary>
         /// Captured skeletons
         /// </summary>
-        private Skeleton[] m_skeletons;
+        private Skeleton[] _skeletons;
         #endregion
 
         #region Methods
@@ -36,8 +36,8 @@ namespace Kinect_the_dots
                 Brush brush = Brushes.Coral;
                 SkeletonCanvas.Children.Clear();
 
-                frame.CopySkeletonDataTo(m_skeletons);
-                Skeleton skeleton = GetPrimarySkeleton(m_skeletons);
+                frame.CopySkeletonDataTo(_skeletons);
+                Skeleton skeleton = GetPrimarySkeleton(_skeletons);
                 
                 if (skeleton == null)
                     HandCursor.Visibility = Visibility.Collapsed;
@@ -148,12 +148,12 @@ namespace Kinect_the_dots
         }
 
         /// <summary>
-        /// 
+        /// Creates figure
         /// </summary>
-        /// <param name="skeleton"></param>
-        /// <param name="brush"></param>
-        /// <param name="joints"></param>
-        /// <returns></returns>
+        /// <param name="skeleton">Skeleton</param>
+        /// <param name="brush">Color of the brush</param>
+        /// <param name="joints">Array of joint types</param>
+        /// <returns>Skeleton as a polyline</returns>
         private Polyline CreateFigure(Skeleton skeleton, Brush brush, JointType[] joints)
         {
             Polyline figure = new Polyline();
@@ -167,10 +167,10 @@ namespace Kinect_the_dots
         }
 
         /// <summary>
-        /// 
+        /// Returns the point mapped to 2D space
         /// </summary>
-        /// <param name="joint"></param>
-        /// <returns></returns>
+        /// <param name="joint">Joint to map</param>
+        /// <returns>Mapped joint</returns>
         private Point GetJointPoint(Joint joint)
         {
             DepthImagePoint point = Kinect.CoordinateMapper.MapSkeletonPointToDepthPoint(joint.Position, Kinect.DepthStream.Format);

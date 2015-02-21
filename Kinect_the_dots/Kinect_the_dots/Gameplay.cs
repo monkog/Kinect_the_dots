@@ -16,23 +16,23 @@ namespace Kinect_the_dots
         /// <summary>
         /// Path to the xml puzzle files
         /// </summary>
-        private const string DIRECTORY_PATH = @".\..\..\Puzzles";
+        private const string DirectoryPath = @".\..\..\Puzzles";
         /// <summary>
         /// Current puzzle number
         /// </summary>
-        private int m_currentPuzzle;
+        private int _currentPuzzle;
         /// <summary>
         /// List of puzzle files
         /// </summary>
-        private List<string> m_puzzles;
+        private List<string> _puzzles;
         /// <summary>
         /// Current connected puzzle index
         /// </summary>
-        private int m_puzzleIndex;
+        private int _puzzleIndex;
         /// <summary>
         /// Tolerance when connecting dots
         /// </summary>
-        private double TOLERANCE = 40;
+        private const double Tolerance = 40;
         #endregion
 
         #region Methods
@@ -41,7 +41,7 @@ namespace Kinect_the_dots
         /// </summary>
         private void SetupGame()
         {
-            m_currentPuzzle = 0;
+            _currentPuzzle = 0;
             ReadPuzzleFiles();
             CreatePuzzle();
         }
@@ -51,11 +51,11 @@ namespace Kinect_the_dots
         /// </summary>
         private void ReadPuzzleFiles()
         {
-            m_puzzles = new List<string>();
+            _puzzles = new List<string>();
 
-            foreach (string file in Directory.GetFiles(DIRECTORY_PATH))
+            foreach (string file in Directory.GetFiles(DirectoryPath))
                 if (Path.GetExtension(file) == ".xml")
-                    m_puzzles.Add(file);
+                    _puzzles.Add(file);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Kinect_the_dots
         /// </summary>
         private void CreatePuzzle()
         {
-            m_puzzleIndex = -1;
-            ReadXMLFile(m_puzzles[m_currentPuzzle]);
+            _puzzleIndex = -1;
+            ReadXmlFile(_puzzles[_currentPuzzle]);
         }
 
         /// <summary>
@@ -74,15 +74,15 @@ namespace Kinect_the_dots
         /// <param name="y">Mapped hand y coordinate</param>
         private void IsGameOver(int x, int y)
         {
-            if (m_puzzleIndex == m_Points.Count - 1)
+            if (_puzzleIndex == _points.Count - 1)
                 return;
 
             Point currentPoint;
 
-            if (m_puzzleIndex + 1 < m_Points.Count)
-                currentPoint = m_Points[m_puzzleIndex + 1];
+            if (_puzzleIndex + 1 < _points.Count)
+                currentPoint = _points[_puzzleIndex + 1];
             else
-                currentPoint = m_Points[0];
+                currentPoint = _points[0];
 
             Point distance = new Point(currentPoint.X - x, currentPoint.Y - y);
             double length = Math.Sqrt((distance.X * distance.X) + (distance.Y * distance.Y));
@@ -92,17 +92,17 @@ namespace Kinect_the_dots
 
         private void ConnectDots(double length, Point currentPoint, int x, int y)
         {
-            if (length < TOLERANCE)
+            if (length < Tolerance)
             {
                 if (Crayon.Points.Count - 1 > 0)
                     Crayon.Points.RemoveAt(Crayon.Points.Count - 1);
 
-                Crayon.Points.Add(new Point(currentPoint.X + (ELLIPSE_SIZE / 2), currentPoint.Y + (ELLIPSE_SIZE / 2)));
-                Crayon.Points.Add(new Point(currentPoint.X + (ELLIPSE_SIZE / 2), currentPoint.Y + (ELLIPSE_SIZE / 2)));
-                m_puzzleIndex++;
+                Crayon.Points.Add(new Point(currentPoint.X + (EllipseSize / 2), currentPoint.Y + (EllipseSize / 2)));
+                Crayon.Points.Add(new Point(currentPoint.X + (EllipseSize / 2), currentPoint.Y + (EllipseSize / 2)));
+                _puzzleIndex++;
 
-                if (m_puzzleIndex == m_Points.Count - 1)
-                    Crayon.Points.Add(new Point(m_Points[0].X + (ELLIPSE_SIZE / 2), m_Points[0].Y + (ELLIPSE_SIZE / 2)));
+                if (_puzzleIndex == _points.Count - 1)
+                    Crayon.Points.Add(new Point(_points[0].X + (EllipseSize / 2), _points[0].Y + (EllipseSize / 2)));
                 return;
             }
 
